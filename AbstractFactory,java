@@ -1,0 +1,90 @@
+/**
+ * @Author: BaiMiao
+ * @Date: 2019/12/10 19:24
+ * @Description: 抽象工厂模式：提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。
+ * 工厂方法模式和抽象工厂模式基本类似，可以这么理解：当工厂只生产一个产品的时候，即为工厂方法模式，
+ * 而工厂如果生产两个或以上的商品即变为抽象工厂模式。
+ * 我们在抽象工厂接口中新增创建系统的方法，并由实例工厂类去实现。
+ * 1. 多个抽象产品类
+ * 2. 具体产品类
+ * 3. 抽象工厂类 - 声明(一组)返回抽象产品的方法
+ * 4. 具体工厂类 - 生成(一组)具体产品
+ */
+
+interface Computer {
+    void printComputer();
+}
+
+class MacbookProComputer implements Computer {
+    public void printComputer() {
+        System.out.println("This is a MacbookPro");
+    }
+}
+
+class SurfaceBookComputer implements Computer {
+    public void printComputer() {
+        System.out.println("This is a SurfaceBook");
+    }
+}
+
+interface OperatingSystem {
+    void printSystem();
+}
+
+class MacOsSystem implements OperatingSystem {
+    public void printSystem() {
+        System.out.println("This is a mac os");
+    }
+}
+
+class Windows8System implements OperatingSystem {
+    public void printSystem() {
+        System.out.println("This is a window 8");
+    }
+}
+
+interface ProductionFactory {
+    Computer createComputer();
+
+    OperatingSystem createSystem();
+}
+
+class AppleFactory implements ProductionFactory {
+    public Computer createComputer() {
+        return new MacbookProComputer();
+    }
+
+    public OperatingSystem createSystem() {
+        return new MacOsSystem();
+    }
+}
+
+class MsFactory implements ProductionFactory {
+    public Computer createComputer() {
+        return new SurfaceBookComputer();
+    }
+
+    public OperatingSystem createSystem() {
+        return new Windows8System();
+    }
+}
+ class Client2 {
+    public void buyComputer(Computer computer) {
+        computer.printComputer();
+    }
+
+    public void use(OperatingSystem s) {
+        s.printSystem();
+    }
+
+}
+public class AbstractFactory {
+    public static void main(String[] args) {
+        Client2 client = new Client2();
+        ProductionFactory factory = new AppleFactory();
+        Computer computer = factory.createComputer();
+        OperatingSystem system = factory.createSystem();
+        client.buyComputer(computer);
+        client.use(system);
+    }
+}
